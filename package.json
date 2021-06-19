@@ -1,0 +1,33 @@
+{
+	"name": "speaker-os",
+	"version": 0.1,
+	"description": "Software to operate audio speakers built on linux",
+	"homepage": "https://speakeros.com",
+	"type": "module",
+	"dependencies": {
+		"ably": "^1.2.10",
+		"axios": "^0.21.1",
+		"bleno": "npm:@abandonware/bleno@^0.5.1-4",
+		"node-cron": "^3.0.0",
+		"node-persist": "^3.1.0",
+		"public-ip": "^4.0.4",
+		"winston": "^3.3.3"
+	},
+	"exports": {
+		"./global": {
+			"import": "./src/global.js"
+		},
+		"./server": {
+			"import": "./src/server.js"
+		},
+		"./logger": {
+			"import": "./src/logger.js"
+		},
+		"./messages": {
+			"import": "./src/messages.js"
+		},
+		"./bluetooth": {
+			"import": "./src/bluetooth.js"
+		}
+	}
+}
