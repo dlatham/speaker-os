@@ -3,6 +3,7 @@ import Logger from 'speaker-os/logger';
 import Server from 'speaker-os/server';
 import Messages from 'speaker-os/messages';
 import Bluetooth from 'speaker-os/bluetooth';
+import CLI from 'speaker-os/cli';
 
 
 
@@ -23,7 +24,11 @@ import Bluetooth from 'speaker-os/bluetooth';
 	// 	dir: 'config'
 	// });
 
-	Logger.info('Storage has been initialized.');
+	//Logger.info('Storage has been initialized.');
+	Logger.info('Starting CLI...');
+	let cli = new CLI;
+
+
 	Logger.info('Loading the global file...')
 
 	Logger.debug(JSON.stringify(Global));
@@ -97,6 +102,11 @@ import Bluetooth from 'speaker-os/bluetooth';
 	// console.log('Server running at http://127.0.0.1:8081/');
 
 }());
+
+function handleKeystroke(str, key){
+	console.log('KEYSTROKE: ');
+	console.log(key);
+}
 
 
 
