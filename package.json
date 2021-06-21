@@ -28,6 +28,9 @@
 		},
 		"./bluetooth": {
 			"import": "./src/bluetooth.js"
+		},
+		"./cli": {
+			"import": "./src/cli.js"
 		}
 	}
 }
