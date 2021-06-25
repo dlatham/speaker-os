@@ -11,26 +11,10 @@
 		"node-cron": "^3.0.0",
 		"node-persist": "^3.1.0",
 		"public-ip": "^4.0.4",
+		"rpi-wifi-connection": "^1.0.17",
 		"winston": "^3.3.3"
 	},
-	"exports": {
-		"./global": {
-			"import": "./src/global.js"
-		},
-		"./server": {
-			"import": "./src/server.js"
-		},
-		"./logger": {
-			"import": "./src/logger.js"
-		},
-		"./messages": {
-			"import": "./src/messages.js"
-		},
-		"./bluetooth": {
-			"import": "./src/bluetooth.js"
-		},
-		"./cli": {
-			"import": "./src/cli.js"
-		}
+	"_moduleAliases": {
+		"@src": "./src"
 	}
 }

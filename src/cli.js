@@ -15,6 +15,8 @@ export default class CLI {
 		// as no and return to the standard listener.
 		this.confirmable  = null
 
+		this.bluetooth = options.bluetooth || {};
+
 		// Command line inteface initiation and handler
 		Readline.emitKeypressEvents(process.stdin);
 		process.stdin.setRawMode(true);
@@ -53,7 +55,18 @@ export default class CLI {
 				Logger.info('Speaker-OS is rebooting...');
 				ChildProcess.exec('sudo /sbin/shutdown -r now', function (msg) { console.log(msg) })
 			};
-		} 
+		}
+
+		else if(keystroke.ctrl && keystroke.name == 'b') {
+			console.log('Bluetooth tools:');
+			console.log(`Bluetooth instance: ${this.bluetooth}`);
+			console.log(`Bluetooth bleno instance: ${this.bluetooth.bleno}`);
+			console.log(`Bluetooth bleno status: ${this.bluetooth.bleno.state}`);
+			console.log('Enable bluetooth advertising? Y/n');
+			this.confirmable = () => {
+				this.bluetooth.startAdvertising();
+			};
+		}
 
 
 		// Handle all other keystrokes

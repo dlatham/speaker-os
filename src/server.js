@@ -3,9 +3,10 @@
 
 import Axios from 'axios';
 import * as Global from './global.js';
+import OS from 'os';
 
 Axios.defaults.baseURL = Global.env == 'development' ? 'https://mystayapp.ngrok.io/devices/v1' : 'https://speakeros.com/devices/v1';
-Axios.defaults.headers.common['x-device-id'] = Global.mac;
+Axios.defaults.headers.common['x-device-id'] = OS.networkInterfaces().eth0[0].mac;
 
 
 export default {

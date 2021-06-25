@@ -7,10 +7,17 @@ import Ably from 'ably';
 import * as Global from './global.js';
 import Logger from './logger.js';
 import Chron from 'node-cron';
+import User from './user.js';
+import EventEmitter from 'events';
 
-export default class MessageClient {
 
-	constructor(){
+export default class MessageClient extends EventEmitter {
+
+	constructor(options={}){
+
+		super();
+
+		this.currentUser = 		options.currentUser || {};
 		this.token = 			null;			// The token is received async from storage in connect()
 		this.uuid = 			Global.uuid; 	// Not currently being used
 		this.client = 			null;			// This is where we store the Ably client
@@ -127,11 +134,8 @@ export default class MessageClient {
 	}
 
 
-	ping(){
-		Logger.debug(`Message with ping request being responded to by pong...`);
-		this.send('pong', Global.mac);
-	}
-
+	// This is the main function for sending a message it should be called from
+	// anywhere inside the class as this.send
 
 	async send(message, channel='unknown'){
 
@@ -139,8 +143,8 @@ export default class MessageClient {
 			let body = {
 				mac: Global.mac,
 				device_name: Global.device_name,
-				public_ip: await Global.ip.public(),
-				private_ip: Global.ip.private,
+				//public_ip: await Global.ip.public(),
+				//private_ip: Global.ip.private,
 				message: message || null
 			}
 		
@@ -156,6 +160,35 @@ export default class MessageClient {
 			Logger.error(err);
 		}
 
+	}
+
+	// First we define all of the message handlers. These are each passed to the
+	// MessageClient when it is successfully connected. Each of these messages should
+	// occur on the channel designated for this device (the MAC address)
+
+
+	ping(){
+		Logger.debug(`Message with ping request being responded to by pong...`);
+		this.send('pong', Global.mac);
+	}
+
+	async setUser(user){
+		Logger.info('Message received to set a new user.');
+
+		// Unclear if this is necessary as the documentation says that JSON object types
+		// are accepted but when testing with the browser based dev tools they didn't work.
+		user = JSON.parse(user);
+		
+		Logger.debug(JSON.stringify(user));
+		this.currentUser = await this.currentUser.set(user);
+		return this
+
+	}
+
+	async clearUser(){
+		Logger.info('Message received to clear the current user.');
+		await this.currentUser.clear();
+		return null;
 	}
 
 }

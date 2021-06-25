@@ -14,7 +14,7 @@ const Logger = Winston.createLogger({
 			)
 		}),
 		new Winston.transports.File({
-			filename: '../log/errors.log',
+			filename: `${process.cwd()}/log/errors.log`,
 			level: 'error'
 		})
 	],
